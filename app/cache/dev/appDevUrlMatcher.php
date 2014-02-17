@@ -791,6 +791,11 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        // MyAppApBundle_traduction
+        if (0 === strpos($pathinfo, '/traduction') && preg_match('#^/traduction/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'MyAppApBundle_traduction')), array (  '_controller' => 'MyApp\\ApBundle\\Controller\\BlogController::traductionAction',));
+        }
+
         if (0 === strpos($pathinfo, '/console')) {
             // console
             if (rtrim($pathinfo, '/') === '/console') {
@@ -818,11 +823,6 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             }
             not_console_exec:
 
-        }
-
-        // MyAppApBundle_traduction
-        if (0 === strpos($pathinfo, '/traduction') && preg_match('#^/traduction/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
-            return $this->mergeDefaults(array_replace($matches, array('_route' => 'MyAppApBundle_traduction')), array (  '_controller' => 'MyApp\\ApBundle\\Controller\\BlogController::traductionAction',));
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
