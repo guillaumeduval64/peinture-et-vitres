@@ -1,0 +1,132 @@
+{% extends 'MyAppApBundle::layout.html.twig' %}
+{% block title %}
+    Fiche client:
+{% endblock %}
+{% block previous %}
+<a href="{{ path('myapp_estimation_suivant', { 'id': client.id, 'client': client, 'param':'Prev' }) }}"> Précèdent</a>
+{% endblock %}
+{% block next %}
+<a href="{{ path('myapp_estimation_suivant', { 'id': client.id, 'client': client, 'param':'Next' }) }}"> Suivant</a>
+{% endblock %}
+{% block recherche %}
+
+                         <a href="{{ path('myapp_client_modifier', { 'id': client.id }) }}">{{ client.nom|upper }} {{ client.prenom|capitalize }}</a>
+                        <a href="{{ path('myapp_estimation_suivant', { 'id': client.id, 'client': client, 'etat': client.etat, 'param':'Prev' }) }}" class="icon-arrow-left-2"></a>
+                        <span>État: {{ client.etat }}</span>
+                        <a href="{{ path('myapp_estimation_suivant', { 'id': client.id, 'etat': client.etat, 'param':'Next' }) }}" class="icon-arrow-right-2"></a>
+{% endblock %}
+
+
+
+{% block principalNote %}   
+
+
+                    <div class="right-map">
+<table id="map">
+            <tr>
+                <td>
+                    {{ google_map_container(map) }}
+                    {{ google_map_js(map) }}
+                </td>
+            </tr>
+            </table>
+            </div>
+
+
+
+
+
+<div class= "info-client">
+
+            <div class="client">
+ <address>
+  {{ client.number }} {{ client.street }}<br>
+  {{ client.city.city|capitalize }}, {{ client.pc|upper }}<br>
+ </address>
+{% for p in client.phones %}
+    {{ p.phoneType.phoneType|capitalize }}: {{ p.phone }}
+    <br>
+{% else %}
+        Aucun Téléphone.
+{% endfor %}
+<br>
+<a href="mailto:{{ client.email }}">{{ client.email }}</a>
+</address>
+
+<h6>Service demandés: {{ client.service.type|capitalize }}</h6>                        
+    <h6>Créé par: {{ client.user|capitalize }} le {{ client.dateTable.date|date('d M y') }}</h6>
+    </div>
+    <div id="note">
+    <pre id="note">Note</pre>
+
+
+<form action="{{ path('myapp_estimation_voirClient', {'id' : client.id}) }}" method="post">
+    {{ form_widget(formNote) }}
+    <input type="submit" value="Ajouter" />
+</form>
+<div class="loading"></div>
+<div id="resultats_notes"> 
+    {% include 'MyAppApBundle:Note:liste.html.twig' with {'notes' : notes}  %}
+</div>
+</div>              
+
+{% endblock %}
+    
+{% block right %}
+<div id="services">
+  <h2>Services<a href="{{ path('myapp_estimation_creerService', { 'id': client.id }, { 'map': map }) }}"> <img src="{{ asset('bundles/myappap/images/add.png') }}" title="Ajouter Service"/></a></h2>
+
+{% if clientServices %}
+<table>
+{% for s in clientServices %}
+
+        <tr>
+            <td><span class="dateSpan"><b>{{ s.created|date('d/m/y') }}</b></span></td>
+            <td>{{ s.service.type }}</td>
+            <td>{{ s.prix|number_format(2, ',', '.') }}$</td>
+            <td>{{ s.note|capitalize }}</td> 
+            <td><a href="{{ path('myapp_service_supprimerService', { 'idd': s.id,'id': client.id  }) }}"><img src="{{ asset('bundles/myappap/images/cross.png') }}" title="Supprimer service"/></a></td>
+          
+        {% if s.image.webpath is defined %}
+        <td><span class="icone"><img src="{{ asset(s.image.webPath) }}" alt="{{ s.image.alt }}" class="img-polaroid"  width="100px" height="100px" /></span></td>
+         {% endif %}
+
+        </tr>
+{% endfor %}
+</table>
+{% else %}
+Aucun Services trouvés
+ {% endif %}
+        
+
+             <h2>Contrats<a href="{{ path('myapp_contrat_ajouter', { 'id': client.id }) }}"> <img src="{{ asset('bundles/myappap/images/add.png') }}" title="Ajouter Contrat"/></a></h2>
+
+       {% if clientservicestest %}
+<table id="tbestimation">
+{% for co in clientservicestest %}
+        <tr>
+            <td><span class="dateSpan"><b>{{ co.created|date('d/m/y') }}:</b></span></td>
+            <td>{{ co.numero }}</td>
+            <td>{{ co.service }}</td>
+            <td>{{ co.prix }}$</td>
+
+            <td><a href="{{ path('myapp_contrat_voir', { 'id': co.id }) }}"><img src="{{ asset('bundles/myappap/images/binoculars.png') }}" alt="Stats"/></a></td></td>
+            {% if co.date != null %}
+                <td>{{ co.date|date('d M y') }}</td
+            {% else %}
+                <td>N/A</td>
+            {% endif %}
+         </tr>       
+{% else %}
+    <tr>
+        <td>Aucunes contrats trouvées</td>
+    </tr>
+{% endfor %}
+    </table> 
+{% endif %}   
+</div>
+                </div>
+            </div><!-- /main -->
+        </div><!-- /container -->
+
+        {% endblock %}
