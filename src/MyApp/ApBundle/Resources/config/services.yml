@@ -11,3 +11,7 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    myapp_ap.message:
+        class: MyApp\ApBundle\TextMessage\Message
+        arguments: [@twilio.api]
+

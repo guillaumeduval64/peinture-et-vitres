@@ -63,6 +63,7 @@
                     <div class="mp-level">
                         <h2 class="icon icon-world">Vitres</h2>
                         <ul>
+                            <li><a href="{{ path('myapp_front_index') }}"><img src="{{ asset('bundles/myappap/images/grey_menu/administrator.png') }}" title="Client"/>Index</a></li>   
                             <li><a href="{{ path('myapp_client_lister') }}"><img src="{{ asset('bundles/myappap/images/grey_menu/administrator.png') }}" title="Client"/>Client</a></li>   
                             <li><a href="{{ path('myapp_rdv_lister') }}"><img src="{{ asset('bundles/myappap/images/grey_menu/bell.png') }}" title="RDV"/>RDV</a></li>
                             <li><a href="{{ path('myapp_contrat_lister') }}"><img src="{{ asset('bundles/myappap/images/grey_menu/clipboard.png') }}" title="Contrat"/>Contrat</a></li>
@@ -243,6 +244,13 @@
 <div class="page">
 {% block page %}
 {% endblock %}
+{% for flashMessage in app.session.flashbag.get('notice') %}
+<div class="flash-notice" style="float:right;">
+
+    {{ flashMessage }}
+   
+    </div>
+    {% endfor %}
 </div>
 </div>
                     {% block content %}

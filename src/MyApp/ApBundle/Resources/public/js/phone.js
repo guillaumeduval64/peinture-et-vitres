@@ -32,5 +32,21 @@ function addPhoneForm($collectionHolder, $newLinkLi) {
     // Display the form in the page in an li, before the "Add a tag" link li
     var $newFormLi = $('<li></li>').append($newForm);
     $newLinkLi.before($newFormLi);
+    addTagFormDeleteLink($newFormLi);
 }
 });
+
+
+
+function addTagFormDeleteLink($tagFormLi) {
+    var $removeFormA = $('<a href="#">Delete phone number</a>');
+    $tagFormLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // remove the li for the tag form
+        $tagFormLi.remove();
+    });
+}

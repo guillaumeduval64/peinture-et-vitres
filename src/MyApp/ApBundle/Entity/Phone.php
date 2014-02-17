@@ -143,4 +143,9 @@ class Phone
     {
         return $this->phoneType;
     }
+
+    public function removeTag(Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
 }

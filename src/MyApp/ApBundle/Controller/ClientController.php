@@ -194,18 +194,24 @@ class ClientController extends ContainerAware
         {
             $form->bind($request);
                     
-            if ($form->isValid()) 
-                {      
+   
                     $em = $this->container->get('doctrine')->getEntityManager();
                     $user = $this->container->get('security.context')->getToken()->getUser();
                     $client -> setUser($user);
                     $em->persist($client);
                     $em->persist($date);
                     $em->flush();
-                    $message='Client ajouté avec succès'; 
+   
                     
-                }
-    return new RedirectResponse($this->container->get('router')->generate('myapp_front_index',array( 'message'=>'Ajouté!'))); 
+ 
+
+
+                    $this->container->get('session')->getFlashBag()->add(
+            'notice',
+            'Client ajouté avec succès'
+        );
+
+    return new RedirectResponse($this->container->get('router')->generate('myapp_front_index',array())); 
 
 
          }
@@ -285,14 +291,12 @@ foreach ($PhoneTypeExist as $phone) {
     $phoneTypeBoom = $phoneType->getphoneType();
 
 
-    if ($phoneTypeBoom=="cellulaire") {
-        $twilio = $this->container->get('twilio.api');
-                                $message = $twilio->account->sms_messages->create(
-                '15146120598', // From a valid Twilio number
-                $phoneNumber, // Text this number
-                "Merci de nous faire confiance! 
-            Peinture et Lavage de vitres Guillaume DUVAL"
-            );
+
+    if ($phoneTypeBoom=="Cell") {
+$text ="c'est de la balle";
+
+        $twilio = $this->container->get('myapp_ap.message');
+            $twilio->sendText($phoneNumber, $text);    
             $this->container->get('session')->getFlashBag()->add('notice', 'Text sent to: '.$phoneNumber);
     }
 }
@@ -306,9 +310,9 @@ foreach ($PhoneTypeExist as $phone) {
                             {
                             $message='Client ajouté avec succès !';
                             }
-                }
+                } $this->container->get('session')->getFlashBag()->add('notice', 'Client modifié!');
        $form = $this->container->get('form.factory')->create(new ClientEtatForm(), $client);
-    return new RedirectResponse($this->container->get('router')->generate('myapp_estimation_voirClient',array('id'=>$id, 'message'=>'Service supprimé avec succès !'))); 
+    return new RedirectResponse($this->container->get('router')->generate('myapp_estimation_voirClient',array('id'=>$id))); 
 
             }
         return $this->container->get('templating')->renderResponse(

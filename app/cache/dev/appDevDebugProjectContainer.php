@@ -228,6 +228,7 @@ class appDevDebugProjectContainer extends Container
             'monolog.logger.router' => 'getMonolog_Logger_RouterService',
             'monolog.logger.security' => 'getMonolog_Logger_SecurityService',
             'monolog.logger.templating' => 'getMonolog_Logger_TemplatingService',
+            'myapp_ap.message' => 'getMyappAp_MessageService',
             'myapp_locale.locale_listener' => 'getMyappLocale_LocaleListenerService',
             'myapp_utilisateur_registration.form.type' => 'getMyappUtilisateurRegistration_Form_TypeService',
             'profiler' => 'getProfilerService',
@@ -2943,6 +2944,19 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'myapp_ap.message' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return MyApp\ApBundle\TextMessage\Message A MyApp\ApBundle\TextMessage\Message instance.
+     */
+    protected function getMyappAp_MessageService()
+    {
+        return $this->services['myapp_ap.message'] = new \MyApp\ApBundle\TextMessage\Message($this->get('twilio.api'));
+    }
+
+    /**
      * Gets the 'myapp_locale.locale_listener' service.
      *
      * This service is shared.
@@ -3223,7 +3237,7 @@ class appDevDebugProjectContainer extends Container
         $v = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler($t, array('default_target_path' => '/fr/intranet/admin/client', 'login_path' => 'fos_user_security_login', 'always_use_default_target_path' => false, 'target_path_parameter' => '_target_path', 'use_referer' => false));
         $v->setProviderKey('main');
 
-        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($s, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => $this->get('fos_user.user_manager')), 'main', $a, $c), 2 => $u, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($b, $f, $this->get('security.authentication.session_strategy'), $t, 'main', $v, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $t, array('login_path' => 'fos_user_security_login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $a), array('check_path' => 'fos_user_security_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $a, $c), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '53022fd62209b', $a), 5 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, $this->get('security.access.decision_manager'), $s, $f, $a)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $this->get('security.authentication.trust_resolver'), $t, 'main', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $t, 'fos_user_security_login', false), NULL, NULL, $a));
+        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($s, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => $this->get('fos_user.user_manager')), 'main', $a, $c), 2 => $u, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($b, $f, $this->get('security.authentication.session_strategy'), $t, 'main', $v, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $t, array('login_path' => 'fos_user_security_login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $a), array('check_path' => 'fos_user_security_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $a, $c), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '5302727bbe255', $a), 5 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, $this->get('security.access.decision_manager'), $s, $f, $a)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $this->get('security.authentication.trust_resolver'), $t, 'main', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $t, 'fos_user_security_login', false), NULL, NULL, $a));
     }
 
     /**
@@ -4789,7 +4803,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_Authentication_ManagerService()
     {
-        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('fos_user.user_manager'), $this->get('security.user_checker'), 'main', $this->get('security.encoder_factory'), true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('53022fd62209b')), true);
+        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('fos_user.user_manager'), $this->get('security.user_checker'), 'main', $this->get('security.encoder_factory'), true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('5302727bbe255')), true);
 
         $instance->setEventDispatcher($this->get('event_dispatcher'));
 
