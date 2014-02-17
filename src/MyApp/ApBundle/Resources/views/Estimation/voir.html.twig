@@ -43,6 +43,8 @@
   {{ client.number }} {{ client.street }}<br>
   {{ client.city.city|capitalize }}, {{ client.pc|upper }}<br>
  </address>
+  <p>phoneNumber: {{ client.phoneNumber }}</p>
+  <p>phoneNumberCell: {{ client.phoneNumberCell }}</p>
 {% for p in client.phones %}
     {{ p.phoneType.phoneType|capitalize }}: {{ p.phone }}
     <br>
@@ -111,6 +113,7 @@ Aucun Services trouvés
             <td>{{ co.prix }}$</td>
 
             <td><a href="{{ path('myapp_contrat_voir', { 'id': co.id }) }}"><img src="{{ asset('bundles/myappap/images/binoculars.png') }}" alt="Stats"/></a></td></td>
+
             {% if co.date != null %}
                 <td>{{ co.date|date('d M y') }}</td
             {% else %}

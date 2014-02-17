@@ -65,6 +65,10 @@
     <h3>Phones:</h3>
     <ul class="phones" data-prototype="{{ form_widget(form.phones.vars.prototype)|e }}">
         {# iterate over each existing tag and render its only field: name #}
+
+          <p>phoneNumber: {{ client.phoneNumber }}</p>
+  <p>phoneNumberCell: {{ client.phoneNumberCell }}</p>
+  
         {% for phone in form.phones %}
 
             <li>{{ form_row(phone.phoneType) }}
